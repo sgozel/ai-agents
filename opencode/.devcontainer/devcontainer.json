@@ -1,10 +1,10 @@
 {
   "name": "opencode-devcontainer",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {
-    "ghcr.io/devcontainers/features/node:1": {}
+  "postCreateCommand": "sudo install -d -o vscode -g vscode /home/vscode/.local /home/vscode/.local/share /home/vscode/.local/share/opencode && sudo apt-get update && sudo apt-get install -y vim curl && curl -fsSL https://opencode.ai/install | bash",
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/home/vscode/.opencode/bin"
   },
-  "postCreateCommand": "npm install -g @opencode/cli && sudo apt-get update && sudo apt-get install -y vim",
   "mounts": [
     "source=${localEnv:HOME}/.local/share/opencode/auth.json,target=/home/vscode/.local/share/opencode/auth.json,type=bind,readonly"
   ]

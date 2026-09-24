@@ -19,7 +19,7 @@ To run a `claude-code` agent in a given working directory:
 
 To run an `opencode` agent in a given working directory:
 - Copy-paste the `.devcontainer/` folder inside the working directory
-- Copy-paste the `opencode.json` file inside the working directory
+- Copy-paste the `opencode.jsonc` file inside the working directory
 - Build and run the container in VS Code
 - call `opencode` on the command-line
 
