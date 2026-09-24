@@ -1,0 +1,58 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "cscs/moonshotai/Kimi-K2.7-Code",
+  "provider": {
+    "cscs": {
+      "npm": "@ai-sdk/anthropic",
+      "name": "CSCS Internal Inference",
+      "options": {
+        "baseURL": "https://api.inference.cscs.ch/v1",
+        "systemMessageMode": "system"
+      },
+      "models": {
+        "moonshotai/Kimi-K2.7-Code": {
+          "name": "Kimi K2.7 Code",
+          "limit": {
+            "context": 262144,
+            "output": 16384
+          }
+        },
+        "swiss-ai/Apertus-v1.5-70B": {
+          "name": "Apertus v1.5 70B",
+          "limit": {
+            "context": 262144,
+            "output": 16384
+          }
+        },
+        "swiss-ai/Apertus-v1.5-70B-thinking": {
+          "name": "Apertus v1.5 70B (thinking)",
+          "limit": {
+            "context": 262144,
+            "output": 16384
+          }
+        },
+        "swiss-ai/Apertus-v1.5-8B": {
+          "name": "Apertus v1.5 8B",
+          "limit": {
+            "context": 262144,
+            "output": 16384
+          }
+        },
+        "swiss-ai/Apertus-v1.5-8B-thinking": {
+          "name": "Apertus v1.5 8B (thinking)",
+          "limit": {
+            "context": 262144,
+            "output": 16384
+          }
+        },
+        "zai-org/GLM-5.2": {
+          "name": "GLM 5.2",
+          "limit": {
+            "context": 976000,
+            "output": 16384
+          }
+        }
+      }
+    }
+  }
+}

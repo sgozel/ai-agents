@@ -1,0 +1,11 @@
+{
+  "name": "opencode-devcontainer",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {}
+  },
+  "postCreateCommand": "npm install -g @opencode/cli && sudo apt-get update && sudo apt-get install -y vim",
+  "mounts": [
+    "source=${localEnv:HOME}/.local/share/opencode/auth.json,target=/home/vscode/.local/share/opencode/auth.json,type=bind,readonly"
+  ]
+}
