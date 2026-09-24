@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+# Set up or remove an agent's devcontainer files in a working directory.
+set -euo pipefail
+
+repo="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
+agents=(claudecode opencode)
+
+usage() {
+  cat >&2 <<EOF
+usage: ai-agent claude   [--force] [dir]
+       ai-agent opencode [--force] [dir]
+       ai-agent clean    [-y]      [dir]
+EOF
+  exit 1
+}
+
+shopt -s dotglob nullglob
+
+setup() {  # $1 = agent folder
+  local src="$repo/$1" force=0
+  shift
+  if [[ "${1:-}" == "--force" ]]; then force=1; shift; fi
+  [[ $# -le 1 ]] || usage
+  local dst="${1:-.}"
+  mkdir -p "$dst"
+  dst="$(cd "$dst" && pwd)"
+
+  local e name conflicts=()
+  for e in "$src"/*; do
+    name="$(basename "$e")"
+    [[ -e "$dst/$name" ]] && conflicts+=("$name")
+  done
+  if (( ${#conflicts[@]} )) && (( ! force )); then
+    echo "Already present in $dst: ${conflicts[*]}" >&2
+    echo "Re-run with --force to overwrite." >&2
+    exit 1
+  fi
+
+  for e in "$src"/*; do
+    name="$(basename "$e")"
+    rm -rf "${dst:?}/$name"
+    cp -a "$e" "$dst/"
+    echo "  copied $name"
+  done
+  echo "Done. Open $dst in VS Code and run 'Dev Containers: Reopen in Container'."
+}
+
+clean() {
+  local yes=0
+  if [[ "${1:-}" == "-y" ]]; then yes=1; shift; fi
+  [[ $# -le 1 ]] || usage
+  local dst
+  dst="$(cd "${1:-.}" && pwd)"
+  if [[ "$dst/" == "$repo/"* ]]; then
+    echo "Refusing to clean inside the ai-agents repo ($repo)." >&2
+    exit 1
+  fi
+
+  local a e name found=()
+  declare -A seen=()
+  for a in "${agents[@]}"; do
+    for e in "$repo/$a"/*; do
+      name="$(basename "$e")"
+      [[ -n "${seen[$name]:-}" ]] && continue
+      seen[$name]=1
+      [[ -e "$dst/$name" ]] && found+=("$name")
+    done
+  done
+
+  if (( ! ${#found[@]} )); then echo "Nothing to clean in $dst."; return; fi
+  echo "Will remove from $dst: ${found[*]}"
+  if (( ! yes )); then
+    read -rp "Proceed? [y/N] " ans
+    [[ "$ans" == [yY]* ]] || { echo "Aborted."; exit 1; }
+  fi
+  for name in "${found[@]}"; do
+    rm -rf "${dst:?}/$name"
+    echo "  removed $name"
+  done
+}
+
+cmd="${1:-}"; shift || true
+case "$cmd" in
+  claude)   setup claudecode "$@" ;;
+  opencode) setup opencode "$@" ;;
+  clean)    clean "$@" ;;
+  *)        usage ;;
+esac

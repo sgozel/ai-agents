@@ -2,6 +2,27 @@
 
 This repository contains the `devcontainer` setup of two AI Agents (`opencode`, `claude-code`) using a `podman` container backend in VS Code.
 
+## Quick setup
+
+The `bin/ai-agent` script copies an agent's files into a working directory, or removes them again. Add these aliases to `~/.bash_aliases` on the host (adjust the path to where this repo is cloned):
+
+```bash
+alias ai-agent-claude='~/software/ai-agents/bin/ai-agent claude'
+alias ai-agent-opencode='~/software/ai-agents/bin/ai-agent opencode'
+alias ai-agent-clean='~/software/ai-agents/bin/ai-agent clean'
+```
+
+Usage (the directory defaults to `.`):
+
+```bash
+ai-agent-claude ~/work_agent/agentA     # copy .devcontainer/ and .claude/
+ai-agent-opencode .                     # copy .devcontainer/ and opencode.jsonc
+ai-agent-opencode --force .             # overwrite files that already exist
+ai-agent-clean .                        # remove .devcontainer/, .claude/, opencode.jsonc (asks first)
+ai-agent-clean -y .                     # remove without asking
+```
+
+The manual steps below still work.
 
 ## Claude-code
 
