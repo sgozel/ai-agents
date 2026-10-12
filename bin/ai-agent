@@ -3,13 +3,14 @@
 set -euo pipefail
 
 repo="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
-agents=(claudecode opencode/v1 opencode/v2)
+agents=(claudecode opencode/v1 opencode/v2 codex)
 
 usage() {
   cat >&2 <<EOF
 usage: ai-agent claude    [--force] [dir]
        ai-agent opencode  [--force] [dir]
        ai-agent opencode2 [--force] [dir]
+       ai-agent codex     [--force] [dir]
        ai-agent clean     [-y]      [dir]
 EOF
   exit 1
@@ -98,6 +99,7 @@ case "$cmd" in
   claude)    setup claudecode "$@" ;;
   opencode)  setup opencode/v1 "$@" ;;
   opencode2) setup opencode/v2 "$@" ;;
+  codex)     setup codex "$@" ;;
   clean)     clean "$@" ;;
   *)         usage ;;
 esac

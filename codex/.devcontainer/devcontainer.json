@@ -1,0 +1,49 @@
+{
+    "name": "codex-devcontainer",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+        // Codex is installed with npm in postCreate.sh
+        "ghcr.io/devcontainers/features/node:1": {}
+    },
+    // forbid VS Code to forward the ssh agent inside the container, and set the container time to Swiss time
+    "remoteEnv": {
+        "SSH_AUTH_SOCK": "",
+        "TZ": "Europe/Zurich"
+    },
+    // VS Code extensions installed inside the container
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cmake-tools",
+                "mhutchie.git-graph",
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter"
+            ],
+            // container-side Python environment
+            "settings": {
+                "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python"
+            }
+        }
+    },
+    // the browser login ("codex login") calls back to localhost:1455
+    "forwardPorts": [
+        1455
+    ],
+    // create mounts:
+    "mounts": [
+        // volume for persistence of Codex settings and login (auth.json)
+        "source=codex-config-${devcontainerId},target=/home/vscode/.codex,type=volume"
+        // ...
+    ],
+    "containerEnv": {
+        // keep all Codex state inside the persisted volume
+        "CODEX_HOME": "/home/vscode/.codex",
+        // container's single uv venv, kept out of the host-shared folder
+        "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv"
+    },
+    // additional installations at container build time
+    "postCreateCommand": "bash .devcontainer/postCreate.sh"
+}

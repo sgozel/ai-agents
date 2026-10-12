@@ -1,0 +1,8 @@
+# Equivalent of Claude's deny list: Bash(git commit:*), Bash(git push:*)
+prefix_rule(
+    pattern = ["git", ["commit", "push"]],
+    decision = "forbidden",
+    justification = "Committing and pushing are done by the user, not the agent.",
+    match = ["git commit -m wip", "git commit", "git push origin main", "git push"],
+    not_match = ["git status", "git log", "git diff"],
+)

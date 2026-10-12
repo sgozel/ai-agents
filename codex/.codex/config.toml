@@ -1,0 +1,16 @@
+# Project-level Codex settings (loaded only for trusted projects; postCreate.sh trusts the workspace).
+
+# Equivalent of Claude's "defaultMode": "plan".
+# Codex can't start in Plan mode (Shift+Tab or /plan switches to it, and it is only enforced
+# by the prompt). Read-only is a hard limit instead: the agent can read files and run read-only
+# commands, and must ask before writing or using the network.
+# Use /permissions in a session to allow edits.
+sandbox_mode = "read-only"
+approval_policy = "on-request"
+
+# If commands fail with bubblewrap errors under rootless podman, try the Landlock fallback first:
+# [features]
+# use_legacy_landlock = true
+#
+# Last resort: let the container be the only boundary.
+# sandbox_mode = "danger-full-access"

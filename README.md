@@ -10,6 +10,7 @@ The `bin/ai-agent` script copies an agent's files into a working directory, or r
 alias ai-agent-claude='~/software/ai-agents/bin/ai-agent claude'
 alias ai-agent-opencode='~/software/ai-agents/bin/ai-agent opencode'
 alias ai-agent-opencode2='~/software/ai-agents/bin/ai-agent opencode2'
+alias ai-agent-codex='~/software/ai-agents/bin/ai-agent codex'
 alias ai-agent-clean='~/software/ai-agents/bin/ai-agent clean'
 ```
 
@@ -20,6 +21,7 @@ ai-agent-claude ~/work_agent/agentA     # copy .devcontainer/ and .claude/
 ai-agent-opencode .                     # copy .devcontainer/ and opencode.jsonc
 ai-agent-opencode2 .                    # copy .devcontainer/ and opencode.jsonc
 ai-agent-opencode --force .             # overwrite files that already exist
+ai-agent-codex .                        # copy .devcontainer/ and .codex/
 ai-agent-clean .                        # remove .devcontainer/, .claude/, opencode.jsonc (asks first)
 ai-agent-clean -y .                     # remove without asking
 ```
@@ -66,3 +68,16 @@ To run an `opencode2` agent in a given working directory:
 - call `opencode` on the command-line
 
 *Note*: The host bind-mounts (in readonly mode) the `auth.json` file containing the API key. The secret is introduced at build time in `.config/opencode/opencode.json` as required by opencode v2 (see `postCreate.sh`). The `opencode.jsonc` is shared by v1 and v2.
+
+### Codex (untested)
+
+To run a `codex` agent in a given working directory:
+- Copy-paste the `.devcontainer/` folder inside the working directory
+- Copy-paste the `common/postCreate-common.sh` file inside `.devcontainer` in the working directory
+- Copy-paste the `.codex/` folder inside the working directory
+- Build and run the container in VS Code
+- call `codex` on the command-line
+
+*Note*: On first build, log in with `codex login`. If the browser callback doesn't reach the container, use `codex login --device-auth`. Device-code login must first be enabled in ChatGPT → Settings → Security. Credentials are kept in a volume, like for `claude-code`.
+
+*Note*: The agent starts read-only, and `git commit` / `git push` are blocked by `.codex/rules/git.rules`.
