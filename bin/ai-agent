@@ -42,6 +42,8 @@ setup() {  # $1 = agent folder
     cp -a "$e" "$dst/"
     echo "  copied $name"
   done
+  cp -a "$repo/common/postCreate-common.sh" "$dst/.devcontainer/"
+
   echo "Done. Open $dst in VS Code and run 'Dev Containers: Reopen in Container'."
 }
 

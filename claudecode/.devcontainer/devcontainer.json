@@ -5,5 +5,41 @@
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
   },
-  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y vim"
+  // forbid VS Code to forward the ssh agent inside the container, and set the container time to Swiss time
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "",
+    "TZ": "Europe/Zurich"
+  },
+  // VS Code extensions installed inside the container
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "mhutchie.git-graph",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter"
+      ],
+      // container-side Python environment
+      "settings": {
+        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python"
+      }
+    }
+  },
+  // create mounts:
+  "mounts": [
+    // volume for persistence of Claude settings
+    "source=claude-code-config-${devcontainerId},target=/home/vscode/.claude,type=volume"
+    // ...
+  ],
+  // keep ~/.claude.json inside the persisted volume
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
+    // container's single uv venv, kept out of the host-shared folder
+    "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv"
+  },
+  // additional installations at container build time
+  "postCreateCommand": "bash .devcontainer/postCreate.sh"
 }
