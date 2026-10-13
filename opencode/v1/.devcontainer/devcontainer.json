@@ -29,7 +29,8 @@
   "mounts": [
     // opencode authentication -- read-only from the host
     "source=${localEnv:HOME}/.local/share/opencode/auth.json,target=/home/vscode/.local/share/opencode/auth.json,type=bind,readonly"
-    // ...
+    // other mounts
+    // "source=${localEnv:HOME}/<source>,target=${containerWorkspaceFolder}/<destination>,type=bind"
   ],
   "containerEnv": {
     // the container's single uv venv, kept out of the host-shared folder

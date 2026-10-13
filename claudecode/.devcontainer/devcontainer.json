@@ -32,7 +32,9 @@
   "mounts": [
     // volume for persistence of Claude settings
     "source=claude-code-config-${devcontainerId},target=/home/vscode/.claude,type=volume"
-    // ...
+    // other mounts
+    // "source=${localEnv:HOME}/<source>,target=${containerWorkspaceFolder}/<destination>,type=bind"
+
   ],
   // keep ~/.claude.json inside the persisted volume
   "containerEnv": {
