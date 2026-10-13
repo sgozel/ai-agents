@@ -3,13 +3,14 @@
 set -euo pipefail
 
 repo="$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)"
-agents=(claudecode opencode)
+agents=(claudecode opencode/v1 opencode/v2)
 
 usage() {
   cat >&2 <<EOF
-usage: ai-agent claude   [--force] [dir]
-       ai-agent opencode [--force] [dir]
-       ai-agent clean    [-y]      [dir]
+usage: ai-agent claude    [--force] [dir]
+       ai-agent opencode  [--force] [dir]
+       ai-agent opencode2 [--force] [dir]
+       ai-agent clean     [-y]      [dir]
 EOF
   exit 1
 }
@@ -44,6 +45,12 @@ setup() {  # $1 = agent folder
   done
   cp -a "$repo/common/postCreate-common.sh" "$dst/.devcontainer/"
 
+  # opencode v1/v2 share a single opencode.jsonc kept one level above the version folder
+  if [[ ! -e "$src/opencode.jsonc" && -f "$(dirname "$src")/opencode.jsonc" ]]; then
+    cp -a "$(dirname "$src")/opencode.jsonc" "$dst/"
+    echo "  copied opencode.jsonc"
+  fi
+
   echo "Done. Open $dst in VS Code and run 'Dev Containers: Reopen in Container'."
 }
 
@@ -67,6 +74,11 @@ clean() {
       seen[$name]=1
       [[ -e "$dst/$name" ]] && found+=("$name")
     done
+    # opencode v1/v2 share a single opencode.jsonc kept one level above the version folder
+    if [[ -f "$repo/$(dirname "$a")/opencode.jsonc" ]]; then
+      name=opencode.jsonc
+      [[ -n "${seen[$name]:-}" ]] || { seen[$name]=1; [[ -e "$dst/$name" ]] && found+=("$name"); }
+    fi
   done
 
   if (( ! ${#found[@]} )); then echo "Nothing to clean in $dst."; return; fi
@@ -83,8 +95,9 @@ clean() {
 
 cmd="${1:-}"; shift || true
 case "$cmd" in
-  claude)   setup claudecode "$@" ;;
-  opencode) setup opencode "$@" ;;
-  clean)    clean "$@" ;;
-  *)        usage ;;
+  claude)    setup claudecode "$@" ;;
+  opencode)  setup opencode/v1 "$@" ;;
+  opencode2) setup opencode/v2 "$@" ;;
+  clean)     clean "$@" ;;
+  *)         usage ;;
 esac

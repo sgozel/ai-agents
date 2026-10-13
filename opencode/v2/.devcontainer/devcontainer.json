@@ -1,0 +1,40 @@
+{
+  "name": "opencode2-devcontainer",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  // forbid VS Code to forward the ssh agent inside the container, set Swiss time, put opencode on PATH
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": "",
+    "TZ": "Europe/Zurich",
+    "PATH": "${containerEnv:PATH}:/home/vscode/.opencode/bin"
+  },
+  // VS Code extensions installed inside the container
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.cmake-tools",
+        "mhutchie.git-graph",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter"
+      ],
+      // container-side Python environment
+      "settings": {
+        "python.defaultInterpreterPath": "/home/vscode/.venv/bin/python"
+      }
+    }
+  },
+  // create mounts:
+  "mounts": [
+    // opencode authentication -- read-only from the host
+    "source=${localEnv:HOME}/.local/share/opencode/auth.json,target=/home/vscode/.local/share/opencode/auth.json,type=bind,readonly"
+    // ...
+  ],
+  "containerEnv": {
+    // the container's single uv venv, kept out of the host-shared folder
+    "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv"
+  },
+  // additional installations at container build time
+  "postCreateCommand": "bash .devcontainer/postCreate.sh"
+}
