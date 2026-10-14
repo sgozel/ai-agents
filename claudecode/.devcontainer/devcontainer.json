@@ -41,6 +41,8 @@
     // "source=${localEnv:HOME}/<source>,target=${containerWorkspaceFolder}/<destination>,type=bind"
 
   ],
+  // create bind-mount targets on the host first, so they are owned by user UID, not by container root
+  //"initializeCommand": "cd '${localWorkspaceFolder}' && mkdir -p target1 target2 ...",
   // keep ~/.claude.json inside the persisted volume
   "containerEnv": {
     "CLAUDE_CONFIG_DIR": "/home/vscode/.claude",

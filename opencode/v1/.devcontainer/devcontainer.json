@@ -37,6 +37,8 @@
     // other mounts
     // "source=${localEnv:HOME}/<source>,target=${containerWorkspaceFolder}/<destination>,type=bind"
   ],
+  // create bind-mount targets on the host first, so they are owned by user UID, not by container root
+  //"initializeCommand": "cd '${localWorkspaceFolder}' && mkdir -p target1 target2 ...",
   "containerEnv": {
     // the container's single uv venv, kept out of the host-shared folder
     "UV_PROJECT_ENVIRONMENT": "/home/vscode/.venv"
