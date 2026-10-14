@@ -1,6 +1,11 @@
 {
   "name": "opencode-devcontainer",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  // map host UID -> same UID in the container (rootless podman), so files on the mount stay the user's files
+  "runArgs": ["--userns=keep-id"],
+  "containerUser": "vscode",
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
   // forbid VS Code to forward the ssh agent inside the container, set Swiss time, put opencode on PATH
   "remoteEnv": {
     "SSH_AUTH_SOCK": "",

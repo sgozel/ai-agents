@@ -1,6 +1,11 @@
 {
   "name": "claude-code-devcontainer",
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  // map host UID -> same UID in the container (rootless podman), so files on the mount stay the user's files
+  "runArgs": ["--userns=keep-id"],
+  "containerUser": "vscode",
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
