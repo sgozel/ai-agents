@@ -23,6 +23,10 @@
             "models": {
                 "moonshotai/Kimi-K2.7-Code": {
                     "name": "Kimi K2.7 Code",
+		    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
                     "limit": {
                         "context": 262144,
                         "output": 16384
@@ -30,6 +34,10 @@
                 },
                 "swiss-ai/Apertus-v1.5-70B": {
                     "name": "Apertus v1.5 70B",
+		    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
                     "limit": {
                         "context": 262144,
                         "output": 16384
@@ -37,6 +45,10 @@
                 },
                 "swiss-ai/Apertus-v1.5-70B-thinking": {
                     "name": "Apertus v1.5 70B (thinking)",
+		    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
                     "limit": {
                         "context": 262144,
                         "output": 16384
@@ -44,6 +56,10 @@
                 },
                 "swiss-ai/Apertus-v1.5-8B": {
                     "name": "Apertus v1.5 8B",
+		    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
                     "limit": {
                         "context": 262144,
                         "output": 16384
@@ -51,13 +67,17 @@
                 },
                 "swiss-ai/Apertus-v1.5-8B-thinking": {
                     "name": "Apertus v1.5 8B (thinking)",
+		    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
                     "limit": {
                         "context": 262144,
                         "output": 16384
                     }
                 },
-                "zai-org/GLM-5.2": {
-                    "name": "GLM 5.2",
+                "zai-org/GLM-5.3": {
+                    "name": "GLM 5.3",
                     "limit": {
                         "context": 976000,
                         "output": 16384
