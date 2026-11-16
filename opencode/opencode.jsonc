@@ -11,7 +11,7 @@
             "git push *": "deny"
         }
     },
-    "model": "cscs/moonshotai/Kimi-K2.7-Code",
+    "model": "cscs/zai-org/GLM-5.3-Flash",
     "provider": {
         "cscs": {
             "npm": "@ai-sdk/anthropic",
@@ -21,9 +21,38 @@
                 "systemMessageMode": "system"
             },
             "models": {
-                "moonshotai/Kimi-K2.7-Code": {
-                    "name": "Kimi K2.7 Code",
-		    "modalities": {
+                "zai-org/GLM-5.3": {
+                    "name": "GLM 5.3",
+                    "limit": {
+                        "context": 1048576,
+                        "output": 16384
+                    }
+                },
+                "zai-org/GLM-5.3-Flash": {
+                    "name": "GLM 5.3 Flash",
+                    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
+                    "limit": {
+                        "context": 1048576,
+                        "output": 16384
+                    }
+                },
+                "Qwen/Qwen3.8-27B-FP8": {
+                    "name": "Qwen 3.8 27B",
+                    "modalities": {
+                        "input": ["text", "image"],
+                        "output": ["text"]
+                    },
+                    "limit": {
+                        "context": 262144,
+                        "output": 16384
+                    }
+                },
+                "Qwen/Qwen3.8-Flash-Next-FP8": {
+                    "name": "Qwen 3.8 Flash Next",
+                    "modalities": {
                         "input": ["text", "image"],
                         "output": ["text"]
                     },
@@ -34,7 +63,7 @@
                 },
                 "swiss-ai/Apertus-v1.5-70B": {
                     "name": "Apertus v1.5 70B",
-		    "modalities": {
+		            "modalities": {
                         "input": ["text", "image"],
                         "output": ["text"]
                     },
@@ -45,7 +74,7 @@
                 },
                 "swiss-ai/Apertus-v1.5-70B-thinking": {
                     "name": "Apertus v1.5 70B (thinking)",
-		    "modalities": {
+		            "modalities": {
                         "input": ["text", "image"],
                         "output": ["text"]
                     },
@@ -56,7 +85,7 @@
                 },
                 "swiss-ai/Apertus-v1.5-8B": {
                     "name": "Apertus v1.5 8B",
-		    "modalities": {
+		            "modalities": {
                         "input": ["text", "image"],
                         "output": ["text"]
                     },
@@ -67,19 +96,12 @@
                 },
                 "swiss-ai/Apertus-v1.5-8B-thinking": {
                     "name": "Apertus v1.5 8B (thinking)",
-		    "modalities": {
+		            "modalities": {
                         "input": ["text", "image"],
                         "output": ["text"]
                     },
                     "limit": {
                         "context": 262144,
-                        "output": 16384
-                    }
-                },
-                "zai-org/GLM-5.3": {
-                    "name": "GLM 5.3",
-                    "limit": {
-                        "context": 976000,
                         "output": 16384
                     }
                 }
