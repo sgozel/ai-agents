@@ -8,6 +8,7 @@ packages=(
     poppler-utils
     cmake
     tree
+    jq
     ## C++ libs
     #libboost-dev
     #libmpfr-dev
